@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserService {
-    @Insert("insert into user(username, password) values(#{username},#{password}) ")
+    @Insert("insert into user(username, password, user_id) values(#{username},#{password},#{userId}) ")
     int insert(UpdateUser updateUser);
 
-    @Select("select password from user where username = #{username}")
-    String select(UpdateUser updateUser);
+    @Select("select * from user where username = #{username}")
+    UpdateUser select(UpdateUser updateUser);
 }

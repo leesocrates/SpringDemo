@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String select(UpdateUser updateUser) {
+    public UpdateUser select(UpdateUser updateUser) {
         return userMapper.select(updateUser);
     }
 }
