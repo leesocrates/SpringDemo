@@ -1,4 +1,4 @@
-package com.lee.demo.utils;
+package com.lee.demo.auth;
 
 import io.jsonwebtoken.*;
 
@@ -19,7 +19,7 @@ public class JwtUtils {
     /**前缀*/
     public static final String TOKEN_PREFIX = "Bearer ";
     /**表头授权*/
-    public static final String AUTHORIZATION = "Authorization";
+    public static final String AUTHORIZATION = "T";
 
     /**
      *

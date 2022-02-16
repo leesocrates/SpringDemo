@@ -1,6 +1,6 @@
 package com.lee.demo.controller;
 
-import com.lee.demo.utils.JwtUtils;
+import com.lee.demo.auth.JwtUtils;
 import com.lee.demo.utils.SnowFlake;
 import com.lee.demo.bean.BaseResponse;
 import com.lee.demo.bean.LoginResponse;
