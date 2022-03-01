@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MainController {
 
-    @Value(value = "${hello: 默认名字}")
+    @Value(value = "${helloStr: 默认名字}")
     private String helloStr;
 
     @ResponseBody
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @CrossOrigin
     public String hello() {
         return "Hello World!"+helloStr;
     }

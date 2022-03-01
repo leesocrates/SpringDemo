@@ -1,0 +1,1 @@
+CREATE TABLE user (username varchar(200) NOT NULL,password varchar(500) NOT NULL,user_id varchar(200) NOT NULL);

@@ -19,7 +19,7 @@ public class JwtUtils {
     /**前缀*/
     public static final String TOKEN_PREFIX = "Bearer ";
     /**表头授权*/
-    public static final String AUTHORIZATION = "T";
+    public static final String AUTHORIZATION = "Token";
 
     /**
      *
