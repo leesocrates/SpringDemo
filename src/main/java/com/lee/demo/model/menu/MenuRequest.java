@@ -1,10 +1,10 @@
-package com.lee.demo.bean.menu;
+package com.lee.demo.model.menu;
 
 public class MenuRequest {
     private String name;
-    private String desc;
+    private String menuDesc;
     private String userId;
-    private int menuId;
+    private long menuId;
     private String imageUrl;
     private String createTime;
     private String updateTime;
@@ -17,12 +17,12 @@ public class MenuRequest {
         this.name = name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getMenuDesc() {
+        return menuDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setMenuDesc(String menuDesc) {
+        this.menuDesc = menuDesc;
     }
 
     public String getUserId() {
@@ -33,11 +33,11 @@ public class MenuRequest {
         this.userId = userId;
     }
 
-    public int getMenuId() {
+    public long getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(int menuId) {
+    public void setMenuId(long menuId) {
         this.menuId = menuId;
     }
 
@@ -69,7 +69,7 @@ public class MenuRequest {
     public String toString() {
         return "MenuRequest{" +
                 "name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
+                ", desc='" + menuDesc + '\'' +
                 ", userId='" + userId + '\'' +
                 ", menuId='" + menuId + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +

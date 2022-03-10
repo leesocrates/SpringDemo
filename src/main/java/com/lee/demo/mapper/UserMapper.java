@@ -1,6 +1,6 @@
-package com.lee.demo.mapper.user;
+package com.lee.demo.mapper;
 
-import com.lee.demo.bean.user.UpdateUser;
+import com.lee.demo.model.user.UpdateUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -8,7 +8,8 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface UserService {
+public interface UserMapper {
+
     @Insert("insert into user(username, password, user_id) values(#{username},#{password},#{userId}) ")
     int insert(UpdateUser updateUser);
 

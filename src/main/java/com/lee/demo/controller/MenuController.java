@@ -1,16 +1,15 @@
 package com.lee.demo.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.lee.demo.bean.BaseResponse;
-import com.lee.demo.bean.menu.MenuRequest;
-import com.lee.demo.bean.menu.MenuResponse;
+import com.github.pagehelper.PageInfo;
+import com.lee.demo.model.BaseResponse;
+import com.lee.demo.model.menu.MenuRequest;
+import com.lee.demo.model.menu.MenuResponse;
 import com.lee.demo.constants.ResponseCode;
-import com.lee.demo.mapper.menu.MenuService;
-import com.lee.demo.utils.PageBean;
+import com.lee.demo.service.MenuService;
+import com.lee.demo.utils.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,15 +18,20 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
+    @Autowired
+    SnowFlake snowFlake;
+
     @PostMapping(path = "/menu")
-    public BaseResponse<MenuResponse> addMenu(@RequestBody MenuRequest request){
+    public BaseResponse<MenuResponse> addMenu(@RequestBody MenuRequest request) {
         BaseResponse<MenuResponse> baseResponse = new BaseResponse<>();
+        long menuId = snowFlake.nextId();
+        request.setMenuId(menuId);
         int id = menuService.insert(request);
         if (id >= 1) {
             baseResponse.setCode(ResponseCode.SUCCESS);
             baseResponse.setMessage("菜单保存成功");
             MenuResponse menuResponse = new MenuResponse();
-            menuResponse.setMenuId(id);
+            menuResponse.setMenuId(menuId);
             baseResponse.setData(menuResponse);
         } else {
             baseResponse.setCode(ResponseCode.ERROR.MENU_ADD_FAIL);
@@ -36,31 +40,34 @@ public class MenuController {
         return baseResponse;
     }
 
-    @GetMapping(path = "/menu")
-    public BaseResponse<List<MenuResponse>> getMenuList(@RequestParam Map<String, String> request){
-        BaseResponse<List<MenuResponse>> baseResponse = new BaseResponse<>();
-        MenuRequest menuRequest = new MenuRequest();
-        menuRequest.setUserId((String) request.get("userId"));
-        List<MenuResponse> list = findItemByPage(Integer.parseInt(request.get("currentPage")), Integer.parseInt(request.get("pageSize")), menuRequest);
-        if (list!=null) {
-            baseResponse.setCode(ResponseCode.SUCCESS);
-            baseResponse.setMessage("菜单查询成功");
-            baseResponse.setData(list);
+    @PostMapping(path = "/menu/{menuId}")
+    public BaseResponse<MenuResponse> updateMenu(@PathVariable("menuId")Long menuId, @RequestBody MenuRequest request) {
+        BaseResponse<MenuResponse> baseResponse;
+        request.setMenuId(menuId);
+        int id = menuService.update(request);
+        if (id >= 1) {
+            baseResponse = BaseResponse.success(null);
         } else {
-            baseResponse.setCode(ResponseCode.ERROR.MENU_QUERY_FAIL);
-            baseResponse.setMessage("菜单查询失败");
+            baseResponse = BaseResponse.fail("菜单更新失败", ResponseCode.ERROR.MENU_UPDATE_FAIL);
         }
         return baseResponse;
     }
 
-    public List<MenuResponse> findItemByPage(int currentPage, int pageSize, MenuRequest request) {
-        //设置分页信息，分别是当前页数和每页显示的总记录数【记住：必须在mapper接口中的方法执行之前设置该分页信息】
-        PageHelper.startPage(currentPage, pageSize);
-
-        List<MenuResponse> allItems = menuService.selectList(request);        //全部商品
-        int countNums = menuService.countItem(request);            //总记录数
-        PageBean<MenuResponse> pageData = new PageBean<>(currentPage, pageSize, countNums);
-        pageData.setItems(allItems);
-        return pageData.getItems();
+    @GetMapping(path = "/menu/search")
+    public BaseResponse<PageInfo<MenuResponse>> searchMenu(@RequestParam Map<String, String> request) {
+        BaseResponse<PageInfo<MenuResponse>> baseResponse;
+        MenuRequest menuRequest = new MenuRequest();
+        menuRequest.setUserId(request.get("userId"));
+        PageInfo<MenuResponse> list = menuService.searchByKeyword(
+                Integer.parseInt(request.get("currentPage")), Integer.parseInt(request.get("pageSize")),
+                menuRequest.getUserId(), request.get("keyword"));
+        if (list != null) {
+            baseResponse = BaseResponse.success(list);
+        } else {
+            baseResponse = BaseResponse.fail(ResponseCode.ERROR.MENU_QUERY_FAIL, "菜单查询失败");
+        }
+        return baseResponse;
     }
+
+
 }

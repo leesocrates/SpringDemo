@@ -10,6 +10,7 @@ public class ResponseCode {
 
         public static final String MENU_ADD_FAIL = "100";
         public static final String MENU_QUERY_FAIL = "101";
+        public static final String MENU_UPDATE_FAIL = "102";
     }
 
 }

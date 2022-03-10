@@ -1,4 +1,4 @@
-package com.lee.demo.bean.update;
+package com.lee.demo.model.update;
 
 public class CheckVersionBean {
     private String appName;

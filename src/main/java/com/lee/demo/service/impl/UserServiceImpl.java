@@ -1,6 +1,8 @@
-package com.lee.demo.mapper.user;
+package com.lee.demo.service.impl;
 
-import com.lee.demo.bean.user.UpdateUser;
+import com.lee.demo.model.user.UpdateUser;
+import com.lee.demo.mapper.UserMapper;
+import com.lee.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,20 +11,20 @@ import java.util.List;
 @Service("UserService")
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserService userService;
+    UserMapper userMapper;
 
     @Override
     public int insert(UpdateUser updateUser) {
-        return userService.insert(updateUser);
+        return userMapper.insert(updateUser);
     }
 
     @Override
     public UpdateUser select(UpdateUser updateUser) {
-        return userService.select(updateUser);
+        return userMapper.select(updateUser);
     }
 
     @Override
     public List<UpdateUser> selectList(UpdateUser updateUser) {
-        return userService.selectList(updateUser);
+        return userMapper.selectList(updateUser);
     }
 }

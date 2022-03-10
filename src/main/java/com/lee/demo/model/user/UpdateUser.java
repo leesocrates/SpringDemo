@@ -1,4 +1,4 @@
-package com.lee.demo.bean.user;
+package com.lee.demo.model.user;
 
 import lombok.Data;
 
