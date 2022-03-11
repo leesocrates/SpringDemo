@@ -53,6 +53,20 @@ public class MenuController {
         return baseResponse;
     }
 
+    @GetMapping(path = "/menu")
+    public BaseResponse<PageInfo<MenuResponse>> getMenuList(@RequestParam Map<String, String> request) {
+        BaseResponse<PageInfo<MenuResponse>> baseResponse;
+        PageInfo<MenuResponse> list = menuService.findItemByPage(
+                Integer.parseInt(request.get("currentPage")), Integer.parseInt(request.get("pageSize")),
+                request.get("userId"));
+        if (list != null) {
+            baseResponse = BaseResponse.success(list);
+        } else {
+            baseResponse = BaseResponse.fail(ResponseCode.ERROR.MENU_QUERY_FAIL, "菜单查询失败");
+        }
+        return baseResponse;
+    }
+
     @GetMapping(path = "/menu/search")
     public BaseResponse<PageInfo<MenuResponse>> searchMenu(@RequestParam Map<String, String> request) {
         BaseResponse<PageInfo<MenuResponse>> baseResponse;

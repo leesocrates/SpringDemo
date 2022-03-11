@@ -18,7 +18,7 @@ public interface MenuService {
 
     int countItem(MenuRequest menuRequest);
 
-    PageInfo<MenuResponse> findItemByPage(int currentPage, int pageSize, MenuRequest request);
+    PageInfo<MenuResponse> findItemByPage(int currentPage, int pageSize, String userId);
 
     PageInfo<MenuResponse> searchByKeyword(int currentPage, int pageSize, String userId, String keyword);
 }
