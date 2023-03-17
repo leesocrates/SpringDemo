@@ -9,6 +9,7 @@ import com.lee.demo.model.user.UpdateUser;
 import com.lee.demo.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,20 +31,20 @@ public class UserController {
     public BaseResponse<UpdateUser> register(@RequestBody UpdateUser updateUser) {
         BaseResponse<UpdateUser> baseResponse = new BaseResponse<>();
         List<UpdateUser> updateUserList = userService.selectList(updateUser);
-        if(updateUserList!=null && updateUserList.size()>0){
+        if (updateUserList != null && updateUserList.size()>0) {
             baseResponse.setCode(ResponseCode.ERROR.REGISTER_USER_EXIST);
             baseResponse.setMessage("用户已存在");
             return baseResponse;
         }
 
         updateUser.setPassword(DigestUtils.md5Hex(updateUser.getPassword()));
-        updateUser.setUserId(snowFlake.nextId()+"");
+        updateUser.setUserId(snowFlake.nextId() + "");
         int id = userService.insert(updateUser);
         if (id >= 1) {
-            baseResponse.setCode(ResponseCode.SUCCESS);
-            baseResponse.setMessage("注册成功");
-            updateUser.setPassword("");
-            baseResponse.setData(updateUser);
+        baseResponse.setCode(ResponseCode.SUCCESS);
+        baseResponse.setMessage("注册成功");
+        updateUser.setPassword("");
+        baseResponse.setData(updateUser);
         } else {
             baseResponse.setCode(ResponseCode.ERROR.REGISTER_UN_KNOW);
             baseResponse.setMessage("注册失败");
@@ -54,18 +55,18 @@ public class UserController {
     @ResponseBody
     @PostMapping(path = "/login")
     @CrossOrigin
-    public BaseResponse<LoginResponse> login(@RequestBody UpdateUser updateUser) {
+    public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody UpdateUser updateUser) {
         UpdateUser dbUser = userService.select(updateUser);
         BaseResponse<LoginResponse> baseResponse = new BaseResponse<>();
-        if(dbUser!=null){
-            if(dbUser.getPassword().equalsIgnoreCase(DigestUtils.md5Hex(updateUser.getPassword()))){
+        if (dbUser != null) {
+            if (dbUser.getPassword().equalsIgnoreCase(DigestUtils.md5Hex(updateUser.getPassword()))) {
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(JwtUtils.generateToken(dbUser.getUserId()));
                 loginResponse.setUserId(dbUser.getUserId());
                 baseResponse.setCode(ResponseCode.SUCCESS);
                 baseResponse.setMessage("login success");
                 baseResponse.setData(loginResponse);
-                return baseResponse;
+                return ResponseEntity.ok().body(baseResponse);
             } else {
 
             }
@@ -74,7 +75,7 @@ public class UserController {
         }
         baseResponse.setCode(ResponseCode.ERROR.LOGIN_NOT_MATCH);
         baseResponse.setMessage("login failed");
-        return baseResponse;
+        return ResponseEntity.status(200).body(baseResponse);
     }
 
 
