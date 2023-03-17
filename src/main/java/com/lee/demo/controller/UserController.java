@@ -27,7 +27,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(path = "/register")
-    @CrossOrigin(origins = "*")
+//    @CrossOrigin(origins = "*")
     public BaseResponse<UpdateUser> register(@RequestBody UpdateUser updateUser) {
         BaseResponse<UpdateUser> baseResponse = new BaseResponse<>();
         List<UpdateUser> updateUserList = userService.selectList(updateUser);
