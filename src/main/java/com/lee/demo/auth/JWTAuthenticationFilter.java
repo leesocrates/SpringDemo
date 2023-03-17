@@ -42,9 +42,12 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
         JsonObject json=new JsonObject();
         //跳过不需要验证的路径
-        if(Arrays.asList(SpringSecurityConfig.AUTH_WHITELIST).contains(url)){
-            chain.doFilter(request, response);
-            return;
+        for(int i = 0 ; i<SpringSecurityConfig.AUTH_WHITELIST.length; i++){
+            String s = SpringSecurityConfig.AUTH_WHITELIST[i];
+            if(url!=null && url.contains(s)){
+                chain.doFilter(request, response);
+                return;
+            }
         }
         if (header==null || !header.startsWith(JwtUtils.TOKEN_PREFIX)) {
             json.addProperty("codeCheck", false);
