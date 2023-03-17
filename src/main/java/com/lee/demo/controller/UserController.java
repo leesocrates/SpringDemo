@@ -27,7 +27,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(path = "/register")
-    @CrossOrigin
+    @CrossOrigin(origins = "*")
     public BaseResponse<UpdateUser> register(@RequestBody UpdateUser updateUser) {
         BaseResponse<UpdateUser> baseResponse = new BaseResponse<>();
         List<UpdateUser> updateUserList = userService.selectList(updateUser);
@@ -54,7 +54,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(path = "/login")
-    @CrossOrigin
+    @CrossOrigin(origins = "*")
     public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody UpdateUser updateUser) {
         UpdateUser dbUser = userService.select(updateUser);
         BaseResponse<LoginResponse> baseResponse = new BaseResponse<>();
