@@ -49,62 +49,62 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                 return;
 //            }
 //        }
-        if (header==null || !header.startsWith(JwtUtils.TOKEN_PREFIX)) {
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token is null");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            return;
-        }
-        try {
-            UsernamePasswordAuthenticationToken authentication = getAuthentication(request,response);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-
-        }catch (ExpiredJwtException e) {
-            //json.addProperty("status", "-2");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token is Expired");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("Token已过期: {} " + e);
-        } catch (UnsupportedJwtException e) {
-            //json.addProperty("status", "-3");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token 格式错误");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("Token格式错误: {} " + e);
-        } catch (MalformedJwtException e) {
-            //json.addProperty("status", "-4");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token没有被正确构造");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("Token没有被正确构造: {} " + e);
-        } catch (SignatureException e) {
-            //json.addProperty("status", "-5");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token signature exception");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("签名失败: {} " + e);
-        } catch (IllegalArgumentException e) {
-            //json.addProperty("status", "-6");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Token illegal argument exception");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("非法参数异常: {} " + e);
-        }catch (Exception e){
-            //json.addProperty("status", "-9");
-            json.addProperty("codeCheck", false);
-            json.addProperty("msg", "Invalid Token");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(json));
-            logger.error("Invalid Token " + e.getMessage());
-        }
+//        if (header==null || !header.startsWith(JwtUtils.TOKEN_PREFIX)) {
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token is null");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            return;
+//        }
+//        try {
+//            UsernamePasswordAuthenticationToken authentication = getAuthentication(request,response);
+//
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            chain.doFilter(request, response);
+//
+//        }catch (ExpiredJwtException e) {
+//            //json.addProperty("status", "-2");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token is Expired");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("Token已过期: {} " + e);
+//        } catch (UnsupportedJwtException e) {
+//            //json.addProperty("status", "-3");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token 格式错误");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("Token格式错误: {} " + e);
+//        } catch (MalformedJwtException e) {
+//            //json.addProperty("status", "-4");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token没有被正确构造");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("Token没有被正确构造: {} " + e);
+//        } catch (SignatureException e) {
+//            //json.addProperty("status", "-5");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token signature exception");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("签名失败: {} " + e);
+//        } catch (IllegalArgumentException e) {
+//            //json.addProperty("status", "-6");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Token illegal argument exception");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("非法参数异常: {} " + e);
+//        }catch (Exception e){
+//            //json.addProperty("status", "-9");
+//            json.addProperty("codeCheck", false);
+//            json.addProperty("msg", "Invalid Token");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(new Gson().toJson(json));
+//            logger.error("Invalid Token " + e.getMessage());
+//        }
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request,HttpServletResponse response)  {
